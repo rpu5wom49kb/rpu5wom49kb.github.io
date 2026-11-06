@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日大赛最新在线-每日大赛热点在线浏览_最新大赛热门内容</title>
+<meta name="description" content="每日大赛最新在线首页，汇总每日大赛热点内容与最新在线更新，按今日、往期与热门榜单分区浏览，快速找到正在讨论的大赛话题与内容入口。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111a2b'/%3E%3Cpath d='M18 40l8-16 6 10 5-7 9 13z' fill='%23ffb547'/%3E%3Ccircle cx='44' cy='20' r='5' fill='%23ff6b6b'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --ink:#111a2b;
+    --ink-2:#1b2740;
+    --paper:#f6f4ef;
+    --card:#ffffff;
+    --line:#e3ded4;
+    --gold:#ffb547;
+    --red:#e8503a;
+    --muted:#6b7280;
+    --text:#232a36;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,"Segoe UI",sans-serif;
+    background:var(--paper);
+    color:var(--text);
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 20px;}
+
+  /* header */
+  header.site{
+    background:var(--ink);
+    color:#fff;
+    position:sticky;top:0;z-index:50;
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .head-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:18px;padding:12px 0;flex-wrap:wrap;
+  }
+  .logo{display:flex;align-items:center;gap:10px;min-width:0;}
+  .logo .mark{
+    width:40px;height:40px;flex:0 0 40px;border-radius:11px;
+    background:linear-gradient(140deg,#243350,#111a2b);
+    display:grid;place-items:center;border:1px solid rgba(255,181,71,.35);
+  }
+  .logo .brand{
+    font-size:17px;font-weight:700;letter-spacing:.5px;color:#fff;white-space:nowrap;
+  }
+  nav.main ul{display:flex;list-style:none;margin:0;padding:0;gap:6px;flex-wrap:wrap;}
+  nav.main a{
+    display:inline-block;padding:7px 12px;border-radius:8px;
+    font-size:14px;color:#cfd6e4;transition:.2s;
+  }
+  nav.main a:hover,nav.main a:focus{background:rgba(255,181,71,.16);color:var(--gold);}
+
+  /* hero */
+  .hero{
+    background:
+      radial-gradient(720px 300px at 88% -10%,rgba(255,181,71,.20),transparent 62%),
+      radial-gradient(560px 260px at 4% 0%,rgba(232,80,58,.16),transparent 60%),
+      var(--ink);
+    color:#fff;
+    padding:46px 0 54px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:1.35fr .95fr;gap:36px;align-items:center;
+  }
+  .kicker{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12.5px;letter-spacing:2px;color:var(--gold);
+    border:1px solid rgba(255,181,71,.4);border-radius:999px;
+    padding:4px 12px;margin-bottom:16px;
+  }
+  .kicker .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);}
+  h1{
+    font-size:clamp(28px,4.4vw,44px);
+    line-height:1.25;margin:0 0 14px;font-weight:800;letter-spacing:.5px;
+  }
+  .hero p.lead{
+    margin:0 0 22px;color:#c6cede;font-size:15.5px;max-width:36em;
+  }
+  .cta-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:11px 22px;border-radius:10px;font-size:15px;font-weight:600;
+    border:1px solid transparent;cursor:pointer;transition:.2s;
+  }
+  .btn-primary{background:var(--gold);color:#1a1408;}
+  .btn-primary:hover{background:#ffc76b;}
+  .btn-ghost{background:transparent;color:#e8ecf4;border-color:rgba(255,255,255,.28);}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+  .btn[data-download-placeholder]{pointer-events:none;}
+  .hero-side{
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.13);
+    border-radius:16px;padding:18px 18px 14px;
+    backdrop-filter:blur(2px);
+  }
+  .hero-side h2{
+    font-size:13px;letter-spacing:1.5px;color:#9fb0cb;font-weight:600;
+    margin:0 0 10px;text-transform:uppercase;
+  }
+  .hero-side ol{margin:0;padding:0;list-style:none;counter-reset:hot;}
+  .hero-side li{
+    counter-increment:hot;
+    display:flex;gap:10px;align-items:flex-start;
+    padding:9px 0;border-bottom:1px dashed rgba(255,255,255,.1);
+    font-size:14px;color:#dde3ee;
+  }
+  .hero-side li:last-child{border-bottom:0;}
+  .hero-side li::before{
+    content:counter(hot);
+    flex:0 0 22px;height:22px;border-radius:6px;
+    background:rgba(255,181,71,.18);color:var(--gold);
+    font-size:12px;font-weight:700;display:grid;place-items:center;
+    margin-top:1px;
+  }
+  .hero-side li span.t{color:#fff;font-weight:600;}
+  .hero-side li span.m{display:block;color:#8d9bb4;font-size:12.5px;line-height:1.5;}
+
+  /* section common */
+  section.block{padding:52px 0;}
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:26px;flex-wrap:wrap;}
+  .sec-head h2{
+    font-size:clamp(20px,2.4vw,26px);margin:0;color:var(--ink);font-weight:800;letter-spacing:.4px;
+  }
+  .sec-head h2 em{font-style:normal;color:var(--red);}
+  .sec-head .sub{color:var(--muted);font-size:14px;margin:0;max-width:34em;}
+  .sec-tag{
+    font-size:12px;letter-spacing:2px;color:var(--red);font-weight:700;
+    display:block;margin-bottom:8px;
+  }
+
+  /* today grid */
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:20px;display:flex;flex-direction:column;gap:10px;
+    transition:.22s;position:relative;overflow:hidden;
+  }
+  .card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(17,26,43,.10);border-color:#d8cfbe;}
+  .card .badge{
+    align-self:flex-start;font-size:12px;font-weight:700;
+    background:rgba(232,80,58,.10);color:var(--red);
+    padding:3px 10px;border-radius:999px;
+  }
+  .card .badge.gold{background:rgba(255,181,71,.18);color:#a86a00;}
+  .card h3{margin:0;font-size:17px;color:var(--ink);line-height:1.5;}
+  .card p{margin:0;font-size:14px;color:#4b5563;}
+  .card .meta{font-size:12.5px;color:#9aa1ad;margin-top:auto;padding-top:6px;}
+
+  /* list / past */
+  .split{display:grid;grid-template-columns:1.5fr 1fr;gap:28px;align-items:start;}
+  .list-panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px 22px;}
+  .list-panel ul{list-style:none;margin:0;padding:0;}
+  .list-panel li{
+    display:flex;justify-content:space-between;gap:16px;align-items:center;
+    padding:15px 0;border-bottom:1px solid #f0ece4;
+  }
+  .list-panel li:last-child{border-bottom:0;}
+  .list-panel .li-main{min-width:0;}
+  .list-panel .li-title{font-size:15.5px;font-weight:600;color:var(--ink);}
+  .list-panel .li-desc{font-size:13px;color:#6b7280;margin-top:2px;}
+  .list-panel .li-time{
+    font-size:12.5px;color:#98a0ac;white-space:nowrap;flex:0 0 auto;
+  }
+  .aside-note{
+    background:linear-gradient(150deg,#1b2740,#111a2b);color:#d9e0ec;
+    border-radius:14px;padding:22px;border:1px solid #22304c;
+  }
+  .aside-note h3{margin:0 0 10px;font-size:16px;color:var(--gold);}
+  .aside-note p{margin:0 0 12px;font-size:13.5px;line-height:1.8;color:#bcc7d9;}
+  .aside-note a.more{font-size:13.5px;color:var(--gold);border-bottom:1px dashed rgba(255,181,71,.5);}
+
+  /* filter */
+  .filter-bar{
+    display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:12px 14px;margin-bottom:22px;
+  }
+  .filter-bar label{font-size:13.5px;color:var(--muted);}
+  .filter-bar input{
+    flex:1 1 200px;min-width:0;padding:9px 12px;border-radius:8px;
+    border:1px solid #ddd6c9;background:#fdfcf9;font-size:14px;color:var(--text);
+    font-family:inherit;
+  }
+  .filter-bar input:focus{outline:2px solid rgba(255,181,71,.55);border-color:var(--gold);}
+  .chip{
+    font-size:13px;padding:7px 14px;border-radius:999px;border:1px solid #ddd6c9;
+    background:#fdfcf9;color:#4b5563;cursor:pointer;font-family:inherit;transition:.18s;
+  }
+  .chip:hover{border-color:var(--gold);color:#a86a00;}
+  .chip.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .empty-tip{display:none;font-size:14px;color:var(--muted);padding:16px 4px;}
+  .topic-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+  .topic-grid .card h3 a:hover{color:var(--red);}
+  .hide{display:none !important;}
+
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .step{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;
+    position:relative;
+  }
+  .step .num{
+    font-size:13px;font-weight:800;color:#fff;background:var(--ink);
+    width:30px;height:30px;border-radius:9px;display:grid;place-items:center;margin-bottom:12px;
+  }
+  .step h3{margin:0 0 8px;font-size:16.5px;color:var(--ink);}
+  .step p{margin:0;font-size:14px;color:#4b5563;}
+
+  /* footer */
+  footer.site{
+    background:var(--ink);color:#93a0b6;padding:34px 0 26px;margin-top:20px;
+  }
+  .foot-top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start;}
+  .foot-brand .brand{color:#fff;font-size:16px;font-weight:700;}
+  .foot-brand p{margin:8px 0 0;font-size:13px;color:#7f8ca3;max-width:34em;line-height:1.8;}
+  .foot-links{display:flex;gap:22px;flex-wrap:wrap;font-size:13.5px;}
+  .foot-links a:hover{color:var(--gold);}
+  .foot-bottom{
+    border-top:1px solid rgba(255,255,255,.09);margin-top:22px;padding-top:16px;
+    font-size:12.5px;color:#69748a;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  }
+
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:26px;}
+    .split{grid-template-columns:1fr;}
+    .grid-3,.steps{grid-template-columns:1fr 1fr;}
+    .topic-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width:620px){
+    .head-inner{padding:10px 0;}
+    .logo .brand{font-size:15px;white-space:normal;line-height:1.3;}
+    nav.main ul{gap:2px;}
+    nav.main a{padding:6px 9px;font-size:13px;}
+    .hero{padding:34px 0 40px;}
+    .hero p.lead{font-size:14.5px;}
+    section.block{padding:38px 0;}
+    .grid-3,.steps{grid-template-columns:1fr;}
+    .list-panel{padding:4px 16px;}
+    .list-panel li{flex-direction:column;align-items:flex-start;gap:4px;}
+    .foot-bottom{flex-direction:column;}
+  }
+</style>
+    <script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap head-inner">
+    <div class="logo">
+      <span class="mark" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 18l4.5-9 3.2 5.4L13.5 10 21 18z" fill="#ffb547"/>
+          <circle cx="18" cy="6.5" r="2.4" fill="#e8503a"/>
+        </svg>
+      </span>
+      <span class="brand">每日大赛最新在线</span>
+    </div>
+    <nav class="main" aria-label="主导航">
+      <ul>
+        <li><a href="#today">今日热点</a></li>
+        <li><a href="#topics">话题合集</a></li>
+        <li><a href="#past">往期回看</a></li>
+        <li><a href="#howto">浏览方式</a></li>
+        <li><a href="#footer">关于本站</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="kicker"><span class="dot"></span>热点内容 · 在线浏览</span>
+        <h1>每日大赛最新在线</h1>
+        <p class="lead">每日大赛最新在线是一个围绕每日大赛热点内容组织的浏览入口。这里把当天正在被讨论的大赛话题、往期热帖与高热榜单放在同一页，按时间与热度分层展示，方便快速找到想看的条目。</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#today">浏览今日热点
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke="#1a1408" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#topics">查看话题合集</a>
+          <a class="btn btn-ghost" href="#" download data-download-placeholder="true" aria-disabled="true" tabindex="-1">下载</a>
+        </div>
+      </div>
+      <aside class="hero-side" aria-label="当前高热条目">
+        <h2>当前高热条目</h2>
+        <ol>
+          <li><div><span class="t">今日大赛焦点汇总</span><span class="m">按讨论量排序的当日条目集合</span></div></li>
+          <li><div><span class="t">争议话题对照栏</span><span class="m">同一事件的多种说法并列呈现</span></div></li>
+          <li><div><span class="t">往期高热回看</span><span class="m">按日期归档，可逐日翻查</span></div></li>
+          <li><div><span class="t">榜单变动提示</span><span class="m">记录条目热度位次的变化</span></div></li>
+        </ol>
+      </aside>
+    </div>
+  </div>
+
+  <section class="block" id="today">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="sec-tag">TODAY</span>
+          <h2>今日热点分区</h2>
+          <p class="sub">每日大赛最新在线的首屏内容按讨论热度排列，每条都标注所属类型与更新时间，便于判断是否值得展开。</p>
+        </div>
+      </div>
+      <div class="grid-3">
+        <article class="card">
+          <span class="badge">高热</span>
+          <h3>当日热门条目合集</h3>
+          <p>把当天讨论集中的大赛话题归到一处，按热度从高到低排列，点开即可查看正文与相关讨论。</p>
+          <div class="meta">更新：当日多次刷新</div>
+        </article>
+        <article class="card">
+          <span class="badge gold">对照</span>
+          <h3>同一事件的多方说法</h3>
+          <p>围绕同一大赛话题，把不同来源的说法并列展示，标注各自出处，方便自行比对判断。</p>
+          <div class="meta">更新：随事件推进补充</div>
+        </article>
+        <article class="card">
+          <span class="badge gold">榜单</span>
+          <h3>热度位次变动记录</h3>
+          <p>记录条目在热度榜上的位置变化，上升与回落都保留痕迹，用于观察话题的持续度。</p>
+          <div class="meta">更新：按周期记录</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="topics">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="sec-tag">TOPICS</span>
+          <h2>话题合集与筛选</h2>
+          <p class="sub">每日大赛最新在线把分散的条目按类型归拢。输入关键词或选择类型，可快速缩小范围。</p>
+        </div>
+      </div>
+
+      <div class="filter-bar" role="search">
+        <label for="kw">关键词</label>
+        <input id="kw" type="search" placeholder="输入条目名称或关键词，如：焦点、对照、榜单" autocomplete="off">
+        <button class="chip active" type="button" data-type="all">全部</button>
+        <button class="chip" type="button" data-type="hot">热点</button>
+        <button class="chip" type="button" data-type="list">榜单</button>
+        <button class="chip" type="button" data-type="back">回看</button>
+      </div>
+
+      <div class="topic-grid" id="topicGrid">
+        <article class="card" data-type="hot" data-key="焦点 今日 热门 合集">
+          <span class="badge">热点</span>
+          <h3>今日焦点条目</h3>
+          <p>汇总当日讨论最集中的大赛条目，包含标题、类型标签与更新时间，适合先整体扫一遍再决定深入哪一条。</p>
+          <div class="meta">类型：热点 · 每日更新</div>
+        </article>
+        <article class="card" data-type="hot" data-key="争议 对照 多方 说法">
+          <span class="badge">热点</span>
+          <h3>争议话题对照</h3>
+          <p>当同一大赛话题出现多种说法时，对照栏把各方表述并排放置，并标注来源与时间，避免只看到单侧信息。</p>
+          <div class="meta">类型：热点 · 随事件补充</div>
+        </article>
+        <article class="card" data-type="list" data-key="榜单 热度 位次 变动">
+          <span class="badge gold">榜单</span>
+          <h3>热度榜与位次变化</h3>
+          <p>以周期为单位记录条目的热度位次，展示上升、持平与回落的轨迹，用来判断一个话题是否仍在持续发酵。</p>
+          <div class="meta">类型：榜单 · 周期记录</div>
+        </article>
+        <article class="card" data-type="back" data-key="往期 回看 归档 日期">
+          <span class="badge gold">回看</span>
+          <h3>往期条目回看</h3>
+          <p>按日期归档的历史条目，保留原始标题与摘要。想追溯某个话题的起点，可以从这里按时间顺序翻查。</p>
+          <div class="meta">类型：回看 · 按日期归档</div>
+        </article>
+      </div>
+      <p class="empty-tip" id="emptyTip">没有匹配的条目，换个关键词或点“全部”试试。</p>
+    </div>
+  </section>
+
+  <section class="block" id="past">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="sec-tag">ARCHIVE</span>
+          <h2>往期回看</h2>
+          <p class="sub">每日大赛最新在线保留近期条目的归档线索，便于按时间顺序回溯话题的来龙去脉。</p>
+        </div>
+      </div>
+      <div class="split">
+        <div class="list-panel">
+          <ul>
+            <li>
+              <div class="li-main">
+                <div class="li-title">焦点条目汇总 · 昨日版</div>
+                <div class="li-desc">昨日讨论集中的条目已归档，标题与摘要保持原样</div>
+              </div>
+              <span class="li-time">昨日</span>
+            </li>
+            <li>
+              <div class="li-main">
+                <div class="li-title">对照栏补充记录</div>
+                <div class="li-desc">新增一方说法，原有表述保留并标注加入时间</div>
+              </div>
+              <span class="li-time">近两日</span>
+            </li>
+            <li>
+              <div class="li-main">
+                <div class="li-title">热度榜周度位次表</div>
+                <div class="li-desc">一周内条目的位次变化，含上升与回落两栏</div>
+              </div>
+              <span class="li-time">本周</span>
+            </li>
+            <li>
+              <div class="li-main">
+                <div class="li-title">早期话题起点索引</div>
+                <div class="li-desc">按首次出现日期排序，用于追溯话题源头</div>
+              </div>
+              <span class="li-time">更早</span>
+            </li>
+          </ul>
+        </div>
+        <aside class="aside-note">
+          <h3>怎么看归档</h3>
+          <p>归档只保留标题、摘要与时间三类信息，不改变原文表达。若同一话题在后续出现新说法，会以补充记录的形式单独列出，而不是覆盖旧内容。</p>
+          <p>需要判断话题是否仍在延续，可把归档时间与热度榜位次对照查看。</p>
+          <a class="more" href="#howto">了解浏览方式 →</a>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="howto">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="sec-tag">HOW TO</span>
+          <h2>浏览方式</h2>
+          <p class="sub">每日大赛最新在线的内容组织按三步展开，先看当天、再筛话题、最后回溯。</p>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <h3>先看今日热点</h3>
+          <p>从首屏的热点分区进入，按热度顺序浏览当日条目，快速判断哪些值得展开细看。</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h3>按类型筛话题</h3>
+          <p>在话题合集中用关键词或类型按钮缩小范围，热点、榜单、回看三类各自独立。</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h3>回溯往期线索</h3>
+          <p>需要追溯源头时进入往期回看，按时间顺序查条目，再与热度榜位次对照判断。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site" id="footer">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="brand">每日大赛最新在线</div>
+        <p>每日大赛最新在线专注热点内容的在线浏览，以今日热点、话题合集与往期回看三个分区组织内容，按时间与热度分层呈现，帮助访问者快速定位正在讨论的大赛条目。</p>
+      </div>
+      <div class="foot-links">
+        <a href="#today">今日热点</a>
+        <a href="#topics">话题合集</a>
+        <a href="#past">往期回看</a>
+        <a href="#howto">浏览方式</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>内容按热度与时间组织，具体条目以实际页面为准。</span>
+      <span>© 每日大赛最新在线</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var input = document.getElementById('kw');
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var cards = Array.prototype.slice.call(document.querySelectorAll('#topicGrid .card'));
+  var emptyTip = document.getElementById('emptyTip');
+  var activeType = 'all';
+
+  function apply(){
+    var q = (input.value || '').trim().toLowerCase();
+    var shown = 0;
+    cards.forEach(function(card){
+      var typeOk = activeType === 'all' || card.getAttribute('data-type') === activeType;
+      var key = (card.getAttribute('data-key') || '') + ' ' + card.textContent.toLowerCase();
+      var kwOk = !q || key.toLowerCase().indexOf(q) !== -1;
+      var ok = typeOk && kwOk;
+      card.classList.toggle('hide', !ok);
+      if(ok) shown++;
+    });
+    emptyTip.style.display = shown ? 'none' : 'block';
+  }
+
+  chips.forEach(function(chip){
+    chip.addEventListener('click', function(){
+      chips.forEach(function(c){ c.classList.remove('active'); });
+      chip.classList.add('active');
+      activeType = chip.getAttribute('data-type');
+      apply();
+    });
+  });
+
+  input.addEventListener('input', apply);
+})();
+</script>
+</body>
+</html>
