@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>虎扑nba-虎扑nba论坛社区_虎扑nba球员评分与比赛讨论</title>
+<meta name="description" content="虎扑nba是虎扑旗下篮球迷聚集的论坛社区，提供NBA比赛讨论、球员评分、球队动态与季后赛话题，在这里看球聊球、发表观点、参与打分。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23c8102e'/%3E%3Ccircle cx='32' cy='32' r='18' fill='none' stroke='%23fff' stroke-width='3'/%3E%3Cpath d='M14 32h36M32 14v36M19 19c8 8 18 8 26 0M19 45c8-8 18-8 26 0' stroke='%23fff' stroke-width='2.4' fill='none'/%3E%3C/svg%3E">
+<style>
+:root{
+  --red:#c8102e;
+  --red-dark:#9d0c24;
+  --ink:#16181d;
+  --ink-soft:#4a4f5a;
+  --line:#e6e3dd;
+  --bg:#f7f5f1;
+  --card:#ffffff;
+  --gold:#e8b04b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC",sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.75;
+  font-size:16px;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+img,svg{display:block;max-width:100%}
+.wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* ---------- 页头 ---------- */
+header.site{
+  position:sticky;top:0;z-index:50;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.head-inner{
+  display:flex;align-items:center;gap:18px;
+  height:64px;
+}
+.logo{
+  display:flex;align-items:center;gap:10px;
+  font-weight:800;font-size:19px;letter-spacing:.5px;
+  color:var(--ink);white-space:nowrap;
+}
+.logo .mark{
+  width:34px;height:34px;flex:0 0 34px;
+  border-radius:9px;background:var(--red);
+  display:grid;place-items:center;
+}
+.logo .mark svg{width:22px;height:22px}
+nav.main{
+  display:flex;gap:4px;margin-left:auto;flex-wrap:wrap;
+}
+nav.main a{
+  font-size:14.5px;color:var(--ink-soft);
+  padding:7px 12px;border-radius:8px;
+  transition:.18s;
+}
+nav.main a:hover{background:#f0ece6;color:var(--red)}
+.nav-cta{
+  font-size:14px;font-weight:600;
+  background:var(--red);color:#fff;
+  padding:8px 16px;border-radius:8px;
+  transition:.18s;white-space:nowrap;
+}
+.nav-cta:hover{background:var(--red-dark)}
+
+/* ---------- 首屏 ---------- */
+.hero{
+  position:relative;overflow:hidden;
+  background:
+    radial-gradient(circle at 88% 18%, rgba(200,16,46,.10), transparent 46%),
+    radial-gradient(circle at 8% 88%, rgba(232,176,75,.14), transparent 44%),
+    #ffffff;
+  border-bottom:1px solid var(--line);
+}
+.hero-grid{
+  display:grid;grid-template-columns:1.15fr .85fr;gap:44px;
+  align-items:center;
+  padding:56px 0 60px;
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12.5px;font-weight:600;letter-spacing:1.5px;
+  color:var(--red);text-transform:uppercase;
+  background:#fdeef0;border:1px solid #f6d3d9;
+  padding:4px 12px;border-radius:999px;margin-bottom:18px;
+}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--red)}
+h1{
+  font-size:clamp(30px,4.6vw,48px);
+  line-height:1.18;font-weight:800;letter-spacing:-.5px;
+  margin-bottom:18px;
+}
+h1 em{font-style:normal;color:var(--red)}
+.hero p.lead{
+  font-size:16.5px;color:var(--ink-soft);max-width:33em;
+  margin-bottom:26px;
+}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:26px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:15px;font-weight:600;
+  padding:11px 22px;border-radius:9px;
+  transition:.18s;
+}
+.btn-primary{background:var(--red);color:#fff;box-shadow:0 6px 16px -6px rgba(200,16,46,.55)}
+.btn-primary:hover{background:var(--red-dark);transform:translateY(-1px)}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--red);color:var(--red)}
+.hero-stats{
+  display:flex;gap:28px;flex-wrap:wrap;
+  padding-top:22px;border-top:1px dashed var(--line);
+}
+.hero-stats div b{display:block;font-size:21px;line-height:1.3}
+.hero-stats div span{font-size:12.8px;color:var(--ink-soft)}
+
+.hero-visual{position:relative}
+.board{
+  background:#fff;border:1px solid var(--line);border-radius:16px;
+  padding:20px;box-shadow:0 18px 40px -28px rgba(22,24,29,.4);
+}
+.board h3{font-size:13px;letter-spacing:1.2px;color:var(--ink-soft);font-weight:600;margin-bottom:14px}
+.score-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:11px 0;border-bottom:1px solid #f2efe9;font-size:14.5px;
+}
+.score-row:last-child{border-bottom:0}
+.score-row .t{display:flex;align-items:center;gap:9px;font-weight:600}
+.team-dot{width:9px;height:9px;border-radius:3px}
+.score-row .v{font-weight:800;font-variant-numeric:tabular-nums}
+.rate-bar{
+  margin-top:16px;background:#faf8f4;border:1px solid #f0ece4;border-radius:10px;padding:12px 14px;
+}
+.rate-bar .lbl{display:flex;justify-content:space-between;font-size:12.8px;color:var(--ink-soft);margin-bottom:8px}
+.track{height:7px;background:#ece7dd;border-radius:99px;overflow:hidden}
+.track i{display:block;height:100%;width:82%;background:linear-gradient(90deg,var(--red),var(--gold));border-radius:99px}
+
+/* ---------- 通用区块 ---------- */
+section{padding:60px 0}
+.sec-head{margin-bottom:32px;max-width:44em}
+.sec-tag{
+  font-size:12.5px;font-weight:700;letter-spacing:1.6px;
+  color:var(--red);margin-bottom:10px;text-transform:uppercase;
+}
+h2{font-size:clamp(22px,2.8vw,29px);font-weight:800;line-height:1.3;letter-spacing:-.3px;margin-bottom:10px}
+.sec-head p{color:var(--ink-soft);font-size:15px}
+
+/* ---------- 板块导航卡 ---------- */
+.forums{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.forum{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:22px;transition:.2s;display:flex;flex-direction:column;
+}
+.forum:hover{transform:translateY(-3px);box-shadow:0 16px 32px -22px rgba(22,24,29,.5);border-color:#dcd6cc}
+.forum .ico{
+  width:40px;height:40px;border-radius:10px;background:#fdeef0;
+  display:grid;place-items:center;margin-bottom:14px;
+}
+.forum .ico svg{width:21px;height:21px;stroke:var(--red);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.forum h3{font-size:17px;font-weight:700;margin-bottom:7px}
+.forum p{font-size:14px;color:var(--ink-soft);flex:1;margin-bottom:14px}
+.forum .meta{font-size:12.8px;color:#8a8578;display:flex;justify-content:space-between;align-items:center}
+.forum .meta span:last-child{color:var(--red);font-weight:600}
+
+/* ---------- 热帖 ---------- */
+.threads{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.thread-list{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line)}
+.thread{
+  display:grid;grid-template-columns:96px 1fr auto;gap:20px;align-items:baseline;
+  padding:18px 4px;border-bottom:1px solid var(--line);transition:.18s;
+}
+.thread:hover{background:#fbf9f5}
+.thread .tag{
+  font-size:12px;font-weight:700;color:var(--red);
+  background:#fdeef0;border-radius:6px;padding:3px 8px;
+  text-align:center;align-self:center;
+}
+.thread h3{font-size:16px;font-weight:600;line-height:1.5;margin-bottom:4px}
+.thread h3 a:hover{color:var(--red)}
+.thread .sub{font-size:13px;color:#8a8578}
+.thread .stat{font-size:12.8px;color:var(--ink-soft);white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/* ---------- 评分区 ---------- */
+.rating-wrap{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.rate-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px}
+.rate-card .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.rate-card .top b{font-size:15.5px}
+.rate-card .top span{font-size:12.5px;color:#8a8578}
+.player{display:flex;align-items:center;gap:12px;padding:9px 0}
+.player .num{
+  width:26px;height:26px;border-radius:7px;background:#f4f1eb;
+  display:grid;place-items:center;font-size:12.5px;font-weight:700;color:var(--ink-soft);
+}
+.player .nm{flex:1;font-size:14.5px}
+.player .sc{font-weight:800;font-size:15px;color:var(--red);font-variant-numeric:tabular-nums}
+.player .sc.mid{color:var(--gold)}
+
+/* ---------- 说明正文 ---------- */
+.about{background:#fff;border-top:1px solid var(--line)}
+.about-cols{display:grid;grid-template-columns:1.4fr 1fr;gap:48px;align-items:start}
+.about p{color:#3c4048;font-size:15.5px;margin-bottom:16px}
+.about p strong{color:var(--ink);font-weight:700}
+.aside-card{
+  background:#faf8f4;border:1px solid #f0ece4;border-radius:14px;padding:22px;
+}
+.aside-card h3{font-size:15px;font-weight:700;margin-bottom:14px}
+.aside-card ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+.aside-card li{font-size:14px;color:var(--ink-soft);padding-left:16px;position:relative}
+.aside-card li::before{
+  content:"";position:absolute;left:0;top:.65em;
+  width:6px;height:6px;border-radius:50%;background:var(--red);
+}
+.aside-card li b{color:var(--ink);font-weight:600}
+
+/* ---------- 下载 ---------- */
+.dl{
+  background:linear-gradient(120deg,#1a1c22,#2a2027 60%,#3a1c24);
+  color:#fff;border-radius:18px;padding:38px 40px;
+  display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;
+}
+.dl h2{color:#fff;margin-bottom:8px}
+.dl p{color:#c8c4c0;font-size:14.5px;max-width:36em}
+.dl .btn-download{
+  display:inline-flex;align-items:center;gap:9px;
+  background:var(--red);color:#fff;font-weight:700;font-size:15px;
+  padding:12px 28px;border-radius:10px;pointer-events:none;
+  opacity:.92;
+}
+.dl .btn-download svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.dl small{display:block;font-size:12px;color:#9a9490;margin-top:10px}
+
+/* ---------- 页尾 ---------- */
+footer.site{
+  background:#16181d;color:#a9a49d;padding:44px 0 30px;margin-top:60px;
+}
+.foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:36px;margin-bottom:32px}
+.foot-brand .logo{color:#fff;margin-bottom:12px}
+.foot-brand p{font-size:13.5px;line-height:1.8;max-width:30em}
+footer h4{color:#fff;font-size:14px;font-weight:700;margin-bottom:12px}
+footer ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+footer ul a{font-size:13.5px;color:#a9a49d;transition:.16s}
+footer ul a:hover{color:#fff}
+.foot-bottom{
+  border-top:1px solid #2b2e35;padding-top:20px;
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  font-size:12.5px;color:#7d7871;
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;gap:34px;padding:40px 0 46px}
+  .forums{grid-template-columns:1fr 1fr}
+  .rating-wrap{grid-template-columns:1fr}
+  .about-cols{grid-template-columns:1fr;gap:28px}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .thread{grid-template-columns:1fr auto;gap:6px 14px}
+  .thread .tag{grid-column:1/-1;justify-self:start;margin-bottom:2px}
+}
+@media (max-width:640px){
+  .head-inner{height:auto;padding:12px 0;flex-wrap:wrap;gap:10px}
+  nav.main{order:3;width:100%;margin-left:0;justify-content:flex-start;gap:0;overflow-x:auto;padding-bottom:2px}
+  nav.main a{padding:6px 10px;font-size:13.5px;white-space:nowrap}
+  .nav-cta{margin-left:auto}
+  section{padding:42px 0}
+  .forums{grid-template-columns:1fr}
+  .hero-stats{gap:18px}
+  .dl{padding:28px 22px}
+  .foot-grid{grid-template-columns:1fr;gap:26px}
+}
+</style>
+    <script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap head-inner">
+    <a href="#top" class="logo" aria-label="虎扑nba 首页">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7">
+          <circle cx="12" cy="12" r="8.2"/>
+          <path d="M3.8 12h16.4M12 3.8v16.4M6.4 6.4c3.4 3.2 7.8 3.2 11.2 0M6.4 17.6c3.4-3.2 7.8-3.2 11.2 0"/>
+        </svg>
+      </span>
+      虎扑nba
+    </a>
+    <nav class="main" aria-label="主导航">
+      <a href="#forums">板块</a>
+      <a href="#threads">热帖</a>
+      <a href="#rating">球员评分</a>
+      <a href="#about">社区说明</a>
+      <a href="#download">客户端</a>
+    </nav>
+    <a class="nav-cta" href="#threads">进入讨论</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- 首屏 -->
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow"><span class="dot"></span>篮球迷的日常据点</span>
+        <h1>虎扑nba</h1>
+        <p class="lead">
+          在虎扑nba，比赛结束不是聊天的终点，而是讨论的开始。看球、打分、争辩、复盘，
+          从常规赛到总决赛，每一场都有球迷在等你说出那句“这球你怎么看”。
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#threads">看今日热帖
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#rating">给球员打分</a>
+        </div>
+        <div class="hero-stats">
+          <div><b>30</b><span>支球队话题</span></div>
+          <div><b>每日</b><span>赛后讨论更新</span></div>
+          <div><b>评分</b><span>球迷共同参与</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="board">
+          <h3>赛 后 速 览 · 讨 论 提 示</h3>
+          <div class="score-row">
+            <span class="t"><span class="team-dot" style="background:#c8102e"></span>东部焦点战</span>
+            <span class="v">热议中</span>
+          </div>
+          <div class="score-row">
+            <span class="t"><span class="team-dot" style="background:#1d428a"></span>西部关键卡位</span>
+            <span class="v">评分开放</span>
+          </div>
+          <div class="score-row">
+            <span class="t"><span class="team-dot" style="background:#e8b04b"></span>季后赛话题</span>
+            <span class="v">长帖更新</span>
+          </div>
+          <div class="rate-bar">
+            <div class="lbl"><span>本场球迷平均评分</span><span>8.2 / 10</span></div>
+            <div class="track"><i></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 板块导航 -->
+  <section id="forums">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-tag">板块导航</div>
+        <h2>从哪聊起，由你决定</h2>
+        <p>虎扑nba把讨论拆成几条清晰的线：聊比赛、聊球队、聊球员、聊数据。选一个入口，直接进入你关心的话题。</p>
+      </div>
+      <div class="forums">
+        <article class="forum">
+          <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4v16"/></svg></div>
+          <h3>比赛讨论区</h3>
+          <p>赛前前瞻、赛中实时帖、赛后复盘，一场比赛三个时段各有各的讨论区，比分胶着时的吐槽最真实。</p>
+          <div class="meta"><span>赛季常规开放</span><span>进入 →</span></div>
+        </article>
+        <article class="forum">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.3 2.9 1-6.1L3.3 9.5l6.1-.9z"/></svg></div>
+          <h3>球员评分</h3>
+          <p>看完球顺手打个分，把表现量化成数字。高分与低分都会被摆上台面，评分同时是观点的一部分。</p>
+          <div class="meta"><span>赛后开放打分</span><span>打分 →</span></div>
+        </article>
+        <article class="forum">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg></div>
+          <h3>数据与战术</h3>
+          <p>回合数、命中率、对位效率，喜欢拆战术的球迷在这里摆数据，用图表说话比用情绪说话更服人。</p>
+          <div class="meta"><span>持续更新</span><span>查看 →</span></div>
+        </article>
+        <article class="forum">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 7h18v10H3z"/><path d="M7 7v10M17 7v10"/></svg></div>
+          <h3>球队专区</h3>
+          <p>三十支球队各有自己的根据地。主队消息、交易流言、伤病名单，最先出现在队迷自己的帖子里。</p>
+          <div class="meta"><span>30 支球队</span><span>进入 →</span></div>
+        </article>
+        <article class="forum">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.4-7-10a7 7 0 1114 0c0 5.6-7 10-7 10z"/><circle cx="12" cy="11" r="2.6"/></svg></div>
+          <h3>季后赛专区</h3>
+          <p>系列赛开打后，每一场都可能成为转折点。晋级形势、对位变化、关键球判罚，讨论密度明显上升。</p>
+          <div class="meta"><span>季后赛期间</span><span>进入 →</span></div>
+        </article>
+        <article class="forum">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 4h16v12H8l-4 4z"/></svg></div>
+          <h3>球迷闲聊</h3>
+          <p>不聊战术也能聊球。球衣、球鞋、看球习惯、记忆里的经典瞬间，这些也是虎扑nba的一部分。</p>
+          <div class="meta"><span>全天开放</span><span>进入 →</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 热帖 -->
+  <section id="threads" class="threads">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-tag">社区热帖</div>
+        <h2>正在被讨论的帖子</h2>
+        <p>好的讨论往往从一个具体问题开始。下面是社区里正在被反复回复的几类话题，点进去就能接上话。</p>
+      </div>
+      <div class="thread-list">
+        <div class="thread">
+          <span class="tag">赛后复盘</span>
+          <div>
+            <h3><a href="#threads">最后一攻该不该叫暂停？从两个回合看临场选择</a></h3>
+            <div class="sub">楼主从暂停时机、剩余秒数和防守对位三个角度拆解，回帖里有人拿出同类场景做对照。</div>
+          </div>
+          <span class="stat">热 · 讨论中</span>
+        </div>
+        <div class="thread">
+          <span class="tag">球员评分</span>
+          <div>
+            <h3><a href="#rating">全场 32 分 11 助攻，这样的表现你给几分？</a></h3>
+            <div class="sub">评分区同步开放，得分不是唯一标准，失误控制和关键球处理同样被逐条拆开讨论。</div>
+          </div>
+          <span class="stat">评分开放</span>
+        </div>
+        <div class="thread">
+          <span class="tag">战术拆解</span>
+          <div>
+            <h3><a href="#threads">挡拆之后为什么总被放空底角？一张图说明轮转问题</a></h3>
+            <div class="sub">作者用回合截图标注站位，指出协防收缩过早，回帖补充了另一侧的补位路线。</div>
+          </div>
+          <span class="stat">长帖 · 更新</span>
+        </div>
+        <div class="thread">
+          <span class="tag">球队动态</span>
+          <div>
+            <h3><a href="#forums">伤病名单再变动，轮换深度还能撑几场？</a></h3>
+            <div class="sub">队迷在帖内整理近期缺阵情况与替补出场时间，讨论焦点集中在锋线轮换的可用人手。</div>
+          </div>
+          <span class="stat">队区热帖</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 评分 -->
+  <section id="rating">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-tag">球员评分</div>
+        <h2>把观感变成一个分数</h2>
+        <p>评分是虎扑nba最直接的表达方式：看完比赛，给出你的判断，再看别人的判断，分歧本身就是内容。</p>
+      </div>
+      <div class="rating-wrap">
+        <div class="rate-card">
+          <div class="top"><b>本场高分区</b><span>球迷平均分</span></div>
+          <div class="player"><span class="num">1</span><span class="nm">首发后卫 · 组织与终结兼顾</span><span class="sc">9.1</span></div>
+          <div class="player"><span class="num">2</span><span class="nm">内线核心 · 篮板与护框稳定</span><span class="sc">8.7</span></div>
+          <div class="player"><span class="num">3</span><span class="nm">第六人 · 替补席火力输出</span><span class="sc">8.4</span></div>
+          <div class="player"><span class="num">4</span><span class="nm">锋线轮换 · 防守端贡献明显</span><span class="sc">8.0</span></div>
+        </div>
+        <div class="rate-card">
+          <div class="top"><b>评分说明</b><span>社区共识</span></div>
+          <div class="player"><span class="num">·</span><span class="nm">评分在比赛结束后开放，参与人数越多，平均分越接近群体判断</span></div>
+          <div class="player"><span class="num">·</span><span class="nm">高分不代表完美，低分也常伴随解释，评论区会补充具体回合</span></div>
+          <div class="player"><span class="num">·</span><span class="nm">同一球员在不同比赛的评分不可直接横向比较，对手强度不同</span></div>
+          <div class="player"><span class="num">·</span><span class="nm">评分只反映球迷当下的观感，属于讨论素材而非官方评价</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 说明 -->
+  <section id="about" class="about">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-tag">社区说明</div>
+        <h2>虎扑nba到底是什么样的地方</h2>
+      </div>
+      <div class="about-cols">
+        <div>
+          <p>
+            <strong>虎扑nba是虎扑站内围绕NBA形成的篮球讨论社区。</strong>它的核心不是资讯推送，而是球迷之间的对话：
+            一场比赛打完，有人写赛后复盘，有人只留一句短评，有人把回合截图贴出来逐帧分析。这些内容共同构成了社区当天的面貌。
+          </p>
+          <p>
+            对多数访问者来说，需求很具体：想知道别人怎么看这场球，想给某个球员打个分，想找同队球迷聊聊轮换和伤病。
+            因此虎扑nba的内容组织以话题为单位，比赛、球队、球员、数据各自成线，读帖与发帖的路径都尽量短。
+          </p>
+          <p>
+            讨论质量依赖参与者的具体表达。只给结论的帖子容易被追问细节，摆出回合、数据和对照的帖子更容易获得回应。
+            评分区的数字同样如此——分数只是入口，真正有价值的是分数背后的理由。
+          </p>
+        </div>
+        <aside class="aside-card">
+          <h3>参与讨论前的几点提示</h3>
+          <ul>
+            <li><b>先看帖再发言。</b>同一话题往往已有多个角度，重复观点容易沉底。</li>
+            <li><b>用具体回合说话。</b>指出时间、比分和对位，比笼统评价更有说服力。</li>
+            <li><b>区分观感与事实。</b>评分是主观判断，数据是客观记录，两者不必混用。</li>
+            <li><b>尊重队迷立场。</b>主队视角不同，讨论才有多样性。</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 下载 -->
+  <section id="download" style="padding-top:0">
+    <div class="wrap">
+      <div class="dl">
+        <div>
+          <h2>把虎扑nba带到手机上</h2>
+          <p>客户端支持比赛提醒、评分入口与帖子上传，赛后第一时间打开就能接上讨论。当前版本信息以应用商店页面为准。</p>
+          <small>下载按钮为占位入口，正式地址上线后替换。</small>
+        </div>
+        <a class="btn-download" href="#" data-download-placeholder="true" aria-disabled="true" tabindex="-1">
+          <svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>
+          下载
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo" style="color:#fff">
+          <span class="mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7">
+              <circle cx="12" cy="12" r="8.2"/>
+              <path d="M3.8 12h16.4M12 3.8v16.4M6.4 6.4c3.4 3.2 7.8 3.2 11.2 0M6.4 17.6c3.4-3.2 7.8-3.2 11.2 0"/>
+            </svg>
+          </span>
+          虎扑nba
+        </div>
+        <p>虎扑nba是篮球迷聊比赛、打评分、拆战术的社区入口。内容由球迷共同产生，观点与评分仅代表参与者个人判断。</p>
+      </div>
+      <div>
+        <h4>内容板块</h4>
+        <ul>
+          <li><a href="#forums">比赛讨论区</a></li>
+          <li><a href="#rating">球员评分</a></li>
+          <li><a href="#threads">社区热帖</a></li>
+          <li><a href="#about">社区说明</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>常用入口</h4>
+        <ul>
+          <li><a href="#top">返回顶部</a></li>
+          <li><a href="#download">客户端下载</a></li>
+          <li><a href="#threads">进入讨论</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>虎扑nba · 球迷讨论社区首页</span>
+      <span>社区内容由用户发布，评分与观点不代表官方立场</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+              </html>
